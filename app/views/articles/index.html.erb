@@ -3,7 +3,7 @@
   <%# aqui a view mostra todos os titulos de arquivos puxados no banco pelo controller%>
   <% @articles.each do |article|%>
     <li>
-      <%= article.title%>
+      <%= link_to article.title, article %>
     </li>
   <% end %>
 </ul>
