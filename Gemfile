@@ -17,6 +17,8 @@ gem 'webpacker', '~> 5.0'
 
 gem 'turbolinks', '~> 5'
 
+gem 'ruby-lsp'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
@@ -65,6 +67,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
