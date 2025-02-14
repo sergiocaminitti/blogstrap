@@ -19,8 +19,22 @@ class ArticlesController < ApplicationController
       render :new
     end
   end
-  private
 
+  def edit
+    # puxando o artigo que tem o id igual ao id passado na url
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render :edit
+    end
+  end
+  private
+  # strong parameters para permitir que os parametros sejam passados para o model
   def article_params
     # definindo que os parametros permitidos são title e body
     params.require(:article).permit(:title, :body)
