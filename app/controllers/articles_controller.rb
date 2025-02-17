@@ -3,9 +3,13 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy]
 
   def index
+    # pegando os três artigos mais recentes
+    @highlights = Article.desc_order.first(3)
     current_page = (params[:page] || 1).to_i
-    # puxando todos os artigos do banco de dados e ordenando por data de criação em ordem decrescente + trazendo 2 artigos por página
-    @articles = Article.order(created_at: :desc).page(current_page).per(2)
+    highlight_ids = @highlights.pluck(:id).join(',')
+    @articles = Article.without_highlights(highlight_ids)
+                      .desc_order
+                      .page(current_page)
   end
   def show
   end
