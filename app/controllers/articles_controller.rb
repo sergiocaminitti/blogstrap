@@ -3,8 +3,9 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy]
 
   def index
-    @articles = Article.all
-    # puxando todos os artigos do banco de dados
+    current_page = (params[:page] || 1).to_i
+    # puxando todos os artigos do banco de dados e ordenando por data de criação em ordem decrescente + trazendo 2 artigos por página
+    @articles = Article.order(created_at: :desc).page(current_page).per(2)
   end
   def show
   end
