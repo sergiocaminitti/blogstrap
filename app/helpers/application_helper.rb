@@ -1,5 +1,7 @@
 module ApplicationHelper
-  def month_day_comma_year(datetime)
-    datetime.strftime("%B %e, %Y")
+  def render_if(condition, template, record)
+    # Só irá renderizar o template se a condição for verdadeira
+    # condição de o registro for válido
+    render template, record if condition
   end
 end
