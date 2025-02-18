@@ -7,8 +7,10 @@
     <%#<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
   </head>
   <body>
+    <meta name="csrf-param" content="<%= Rack::Utils.escape_html(form_authenticity_token) %>">
     <main class="container mb-3">
       <%= render 'layouts/topnavbar' %>
       <%=render 'layouts/flash_messages' %>

@@ -1,7 +1,5 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: %i[ edit update destroy ]
-  skip_before_action :verify_authenticity_token, only: [:destroy
-
 
   # GET /categories or /categories.json
   def index
