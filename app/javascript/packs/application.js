@@ -1,7 +1,9 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 require("@popperjs/core");
+
 import Rails from "@rails/ujs";
-import { Tooltip } from "bootstrap";
+
+import "bootstrap";
 import "../stylesheets/application";
 
 document.addEventListener("turbolinks:load", () => {
