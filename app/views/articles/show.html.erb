@@ -1,6 +1,8 @@
 <article class="blog-post mb-3">
   <h2 class="display-5 link-body-emphasis mb-1"><%= @article.title %></h2>
-  <p class="blog-post-meta"><%= month_day_comma_year(@article.created_at) %> by <a href="#">Author</a></p>
+  <p class="blog-post-meta"><%= month_day_comma_year(@article.created_at) %>
+    by <%= @article.user.email%>
+  </p>
   <P><%= @article.body%></P>
   <%= link_to 'Edit', edit_article_path(@article), class: 'btn btn-secondary'%>
   <%# Usanod o javascript não intrusivo %>
@@ -8,5 +10,5 @@
     method: :delete,
     data: { confirm: 'Are you sure?' },
     class: 'btn btn-danger' %>
-  <%= link_to 'Back', root_path, class: 'btn btn-secondary' %>
+  <%= link_to 'Back', root_path, class: 'btn btn-dark' %>
 </article>
