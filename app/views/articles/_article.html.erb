@@ -3,10 +3,10 @@
   <p class="blog-post-meta"><%= month_day_comma_year(article.created_at) %> by <%= article.user.email%>
     <P><%= truncate( article.body, length: 150 )%></P>
     <p> <%= link_to 'Continue readding ...', article, class: 'btn btn-link'%> </p>
-    <%= link_to 'Edit', edit_article_path(article), class: 'btn btn-secondary'%>
+    <%= link_to 'Edit', edit_article_path(article), class: 'btn btn-secondary' if policy(article).update? %>
     <%# Usanod o javascript não intrusivo %>
     <%= link_to 'Destroy', article_path(article),
     method: :delete,
     data: { confirm: 'Are you sure?' },
-    class: 'btn btn-danger' %>
+    class: 'btn btn-danger' if policy(article).destroy? %>
   </article>

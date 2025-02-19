@@ -8,7 +8,7 @@
     <h3 class="pb-4 mb-4 fst-italic border-bottom">
       From my Experience
     </h3>
-    <%= link_to 'New Article', new_article_path, class:'btn btn-primary mb-3'%>
+    <%= link_to 'New Article', new_article_path, class:'btn btn-primary mb-3' if user_signed_in? %>
     <%# Essa parte do código -> %>
     <%# <% @articles.each d0 |article| %>
     <%# <%= render article %>

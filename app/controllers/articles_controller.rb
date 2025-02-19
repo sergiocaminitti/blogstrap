@@ -49,10 +49,13 @@ class ArticlesController < ApplicationController
   private
 
   def set_article
-    @article = Article.find(params[:id])
     # atribuindo para article o artigo que tem o id igual ao id passado na url
+    @article = Article.find(params[:id])
+    # joga o usuário que está criando o artigo, e o artigo e salva nas variáveis
+    # user e record do initialize application_policy, assim esse artigo terá o regitro de
+    # seu autor quardado em user
+    authorize @article
   end
-
 
   # strong parameters para permitir que os parametros sejam passados para o model
   def article_params
