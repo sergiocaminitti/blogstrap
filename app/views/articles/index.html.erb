@@ -8,7 +8,7 @@
     <h3 class="pb-4 mb-4 fst-italic border-bottom">
       From my Experience
     </h3>
-    <%= link_to 'New Article', new_article_path, class:'btn btn-primary mb-3' if user_signed_in? %>
+    <%= link_to 'New Article', new_article_path, class:'btn btn-success mb-3' if user_signed_in? %>
     <%# Essa parte do código -> %>
     <%# <% @articles.each d0 |article| %>
     <%# <%= render article %>
@@ -20,3 +20,13 @@
   </div>
   <%= render 'right_side' %>
 </div>
+<%= content_for :category_filter do %>
+  <div class="nav-scroller py-1 mb-3 border-bottom">
+    <nav class="nav nav-underline justify-content-between">
+      <% @categories.each do |category| %>
+        <%= link_to category.name, root_path(category: category.name),
+              class: "nav-item nav-link link-body-emphasis #{category.name.to_s == params[:category] ? 'category-active' : ''}" %>
+      <% end %>
+    </nav>
+  </div>
+<% end %>

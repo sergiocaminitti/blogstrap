@@ -1,5 +1,9 @@
 /* stylelint-disable selector-list-comma-newline-after */
 
+.nav-item.nav-link.category-active {
+    font-weight: bold;
+}
+
 .filter-active {
     font-weight: bold;
 }

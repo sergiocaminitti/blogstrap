@@ -14,6 +14,7 @@
     <main class="container mb-3">
       <%= render 'layouts/topnavbar' %>
       <%=render 'layouts/flash_messages' %>
+      <%# o yield é o bloco que renderiza o conteúdo da página, que é o conteúdo principal da página %>
       <%= yield %>
     </main>
     <%= render 'layouts/footer'%>
