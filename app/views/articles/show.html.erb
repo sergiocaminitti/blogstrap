@@ -4,11 +4,11 @@
     by <%= @article.user.email%>
   </p>
   <P><%= @article.body%></P>
-  <%= link_to 'Edit', edit_article_path(@article), class: 'btn btn-secondary'%>
+  <%= link_to 'Edit', edit_article_path(@article), class: 'btn btn-secondary' if policy(@article).update? %>
   <%# Usanod o javascript não intrusivo %>
   <%= link_to 'Destroy', article_path(@article),
     method: :delete,
     data: { confirm: 'Are you sure?' },
-    class: 'btn btn-danger' %>
+    class: 'btn btn-danger' if policy(@article).destroy? %>
   <%= link_to 'Back', root_path, class: 'btn btn-dark' %>
 </article>
