@@ -6,26 +6,29 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy]
 
   def index
-    category = Category.find_by_name(params[:category]) if params[:category].present?
+    @categories = Category.sorted  # Carregar as categorias primeiro
+    category = @categories.find_by_name(params[:category]) if params[:category].present?
 
-    # pegando os três artigos mais recentes
-    @highlights = Article.filter_by_category(category)
-                         .desc_order
-                         .first(3)
+    @highlights = Article.includes(:category, :user)
+                          .filter_by_category(category)
+                          .desc_order
+                          .first(3)
 
     highlight_ids = @highlights.pluck(:id).join(',')
 
-    @articles = Article.without_highlights(highlight_ids)
-                       .filter_by_category(category)
-                       .desc_order
-                       .page(current_page)
-    @categories = Category.sorted
-  end
-  def show
-  end
+    @articles = Article.includes(:category, :user)
+                        .without_highlights(highlight_ids)
+                        .filter_by_category(category)
+                        .desc_order
+                        .page(current_page)
+end
+
+  def show;  end
+
   def new
     @article = current_user.articles.new
   end
+
   def create
     @article = current_user.articles.new(article_params)
 
@@ -35,10 +38,7 @@ class ArticlesController < ApplicationController
       render :new
     end
   end
-
-  def edit
-  end
-  # def edit; end -- outra forma de escrever o método edit
+  def edit; end
 
   def update
     if @article.update(article_params)
