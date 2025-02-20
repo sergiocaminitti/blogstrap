@@ -91,7 +91,7 @@ class ArticlesController < ApplicationController
   private
 
   def needs_comments_and_user?
-    current_user.admin? || params[:include_comments] == 'true' || @article.comments.exists?
+    params[:include_comments] == 'true'
   end
 
   def set_article
