@@ -13,32 +13,38 @@ class ArticlesController < ApplicationController
     if category
       # Carregar os destaques com eager loading de :category e :user
       @highlights = Article.includes(:category, :user)
-                            .filter_by_category(category)
-                            .desc_order
-                            .first(3)
+                           .filter_by_category(category)
+                           .filter_by_archive(params[:month_year])
+                           .desc_order
+                           .first(3)
 
       highlight_ids = @highlights.pluck(:id).join(',')
 
       # Carregar os artigos com eager loading de :category e :user
       @articles = Article.includes(:category, :user)
-                          .without_highlights(highlight_ids)
-                          .filter_by_category(category)
-                          .desc_order
-                          .page(current_page)
+                         .without_highlights(highlight_ids)
+                         .filter_by_category(category)
+                         .filter_by_archive(params[:month_year])
+                         .desc_order
+                         .page(current_page)
     else
       # Carregar os destaques sem categoria com eager loading de :category e :user
       @highlights = Article.includes(:category, :user)
-                            .desc_order
-                            .first(3)
+                           .filter_by_archive(params[:month_year])
+                           .desc_order
+                           .first(3)
 
       highlight_ids = @highlights.pluck(:id).join(',')
 
       # Carregar os artigos sem categoria com eager loading de :category e :user
       @articles = Article.includes(:category, :user)
-                          .without_highlights(highlight_ids)
-                          .desc_order
-                          .page(current_page)
+                         .without_highlights(highlight_ids)
+                         .filter_by_archive(params[:month_year])
+                         .desc_order
+                         .page(current_page)
     end
+
+    @archives = Article.group_by_month(:created_at, format: '%B %Y').count
   end
 
   def show;  end
