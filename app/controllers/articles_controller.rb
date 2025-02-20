@@ -4,6 +4,7 @@ class ArticlesController < ApplicationController
   # executando antes de ações // only define antes de quais def's ele vai executar
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_article, only: %i[show edit update destroy]
+  before_action :set_categories, only: %i[new create edit update]
 
   def index
     @categories = Category.sorted
@@ -88,6 +89,10 @@ class ArticlesController < ApplicationController
     # user e record do initialize application_policy, assim esse artigo terá o regitro de
     # seu autor quardado em user
     authorize @article
+  end
+
+  def set_categories
+    @categories = Category.sorted
   end
 
   # strong parameters para permitir que os parametros sejam passados para o model
