@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
 
   # executando antes de ações // only define antes de quais def's ele vai executar
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_article, only: %i[show edit update destroy]
+  before_action :set_article, only: %i[edit update destroy]
   before_action :set_categories, only: %i[new create edit update]
 
   def index
@@ -48,7 +48,15 @@ class ArticlesController < ApplicationController
     @archives = Article.group_by_month(:created_at, format: '%B %Y').count
   end
 
-  def show;  end
+  def show
+    if needs_comments_and_user?
+      @article = Article.includes(comments: :user).find(params[:id])
+    else
+      @article = Article.includes(:user).find(params[:id])
+    end
+    authorize @article
+  end
+
 
   def new
     @article = current_user.articles.new
@@ -81,6 +89,10 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+  def needs_comments_and_user?
+    current_user.admin? || params[:include_comments] == 'true' || @article.comments.exists?
+  end
 
   def set_article
     # atribuindo para article o artigo que tem o id igual ao id passado na url
