@@ -6,22 +6,40 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy]
 
   def index
-    @categories = Category.sorted  # Carregar as categorias primeiro
+    @categories = Category.sorted
+
     category = @categories.find_by_name(params[:category]) if params[:category].present?
 
-    @highlights = Article.includes(:category, :user)
+    if category
+      # Carregar os destaques com eager loading de :category e :user
+      @highlights = Article.includes(:category, :user)
+                            .filter_by_category(category)
+                            .desc_order
+                            .first(3)
+
+      highlight_ids = @highlights.pluck(:id).join(',')
+
+      # Carregar os artigos com eager loading de :category e :user
+      @articles = Article.includes(:category, :user)
+                          .without_highlights(highlight_ids)
                           .filter_by_category(category)
                           .desc_order
-                          .first(3)
+                          .page(current_page)
+    else
+      # Carregar os destaques sem categoria com eager loading de :category e :user
+      @highlights = Article.includes(:category, :user)
+                            .desc_order
+                            .first(3)
 
-    highlight_ids = @highlights.pluck(:id).join(',')
+      highlight_ids = @highlights.pluck(:id).join(',')
 
-    @articles = Article.includes(:category, :user)
-                        .without_highlights(highlight_ids)
-                        .filter_by_category(category)
-                        .desc_order
-                        .page(current_page)
-end
+      # Carregar os artigos sem categoria com eager loading de :category e :user
+      @articles = Article.includes(:category, :user)
+                          .without_highlights(highlight_ids)
+                          .desc_order
+                          .page(current_page)
+    end
+  end
 
   def show;  end
 
