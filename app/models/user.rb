@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   rolify
   has_many :articles, dependent: :destroy
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  has_many :comments, dependent: :destroy
+
   devise  :confirmable,
           :database_authenticatable,
           :recoverable,
@@ -10,4 +10,14 @@ class User < ApplicationRecord
           :rememberable,
           :trackable,
           :validatable
+
+  validate :password_complexity
+
+    private
+
+    def password_complexity
+      return if password.nil?
+
+      errors.add :password, :complexity unless CheckPasswordComplexityService.call(password)
+    end
 end

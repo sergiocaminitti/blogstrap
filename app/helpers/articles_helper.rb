@@ -5,4 +5,7 @@ module ArticlesHelper
   def month_day(datetime)
     datetime.strftime("%B %e")
   end
+  def needs_comments?(article)
+    article.comments.any?
+  end
 end

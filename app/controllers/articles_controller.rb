@@ -3,7 +3,8 @@ class ArticlesController < ApplicationController
 
   # executando antes de ações // only define antes de quais def's ele vai executar
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_article, only: %i[show edit update destroy]
+  before_action :set_article, only: %i[edit update destroy]
+  before_action :set_categories, only: %i[new create edit update]
 
   def index
     @categories = Category.sorted
@@ -47,7 +48,11 @@ class ArticlesController < ApplicationController
     @archives = Article.group_by_month(:created_at, format: '%B %Y').count
   end
 
-  def show;  end
+  def show
+    @article = Article.find(params[:id])
+    @comments = @article.comments.includes(:user) # Inclua a associação :user aqui
+  end
+
 
   def new
     @article = current_user.articles.new
@@ -81,6 +86,10 @@ class ArticlesController < ApplicationController
 
   private
 
+  def needs_comments?
+    params[:include_comments] == 'true'
+  end
+
   def set_article
     # atribuindo para article o artigo que tem o id igual ao id passado na url
     @article = Article.find(params[:id])
@@ -88,6 +97,10 @@ class ArticlesController < ApplicationController
     # user e record do initialize application_policy, assim esse artigo terá o regitro de
     # seu autor quardado em user
     authorize @article
+  end
+
+  def set_categories
+    @categories = Category.sorted
   end
 
   # strong parameters para permitir que os parametros sejam passados para o model
