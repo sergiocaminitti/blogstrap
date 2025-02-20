@@ -49,12 +49,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    if needs_comments_and_user?
-      @article = Article.includes(comments: :user).find(params[:id])
-    else
-      @article = Article.includes(:user).find(params[:id])
-    end
-    authorize @article
+    @article = Article.find(params[:id])
+    @comments = @article.comments.includes(:user) # Inclua a associação :user aqui
   end
 
 
@@ -90,7 +86,7 @@ class ArticlesController < ApplicationController
 
   private
 
-  def needs_comments_and_user?
+  def needs_comments?
     params[:include_comments] == 'true'
   end
 
