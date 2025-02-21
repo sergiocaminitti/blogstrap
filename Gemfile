@@ -6,7 +6,6 @@ gem "rails", "~> 7.1.5", ">= 7.1.5.1"
 
 gem "sprockets-rails"
 
-gem "sqlite3", ">= 1.4"
 
 gem 'sass-rails', '>= 6'
 
@@ -33,6 +32,7 @@ gem "bootsnap", require: false
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
+  gem "sqlite3", ">= 1.4"
 end
 
 group :development do
@@ -58,3 +58,5 @@ gem "pundit", "~> 2.4"
 gem "rolify", "~> 6.0"
 
 gem "groupdate", "~> 6.4"
+
+gem 'pg', '~> 1.5', '>= 1.5.9', group: :production
