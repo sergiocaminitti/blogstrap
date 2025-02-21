@@ -32,7 +32,7 @@ gem "bootsnap", require: false
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
-  gem "sqlite3", ">= 1.4"
+  gem "pg", ">= 1.4"
 end
 
 group :development do
@@ -59,4 +59,4 @@ gem "rolify", "~> 6.0"
 
 gem "groupdate", "~> 6.4"
 
-gem 'pg', '~> 1.5', '>= 1.5.9', group: :production
+gem "pg", ">= 1.4"
